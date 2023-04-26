@@ -185,7 +185,7 @@ function MyMatchingPage() {
   return (
     <div className={styles.container}>
       <div className={styles.form_container}>
-        <div className={styles.text}>내 맛칭</div>
+        <div className={styles.text}>My Matching</div>
         <List
           grid={{
             gutter: 16,

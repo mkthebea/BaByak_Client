@@ -1,3 +1,7 @@
+* {
+  font-family: "TheJamsil5Bold", sans-serif;
+}
+
 .container {
   height: 100%;
   width: 100%;
@@ -8,14 +12,6 @@
 }
 
 .form_container {
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-color: white;
-  padding: 30px;
-  border-radius: 10px;
-  width: 85vw;
-  height: 85vh; */
   margin-top: 15px;
   background-color: white;
   display: flex;

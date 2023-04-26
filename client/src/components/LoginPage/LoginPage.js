@@ -33,7 +33,7 @@ function LoginPage() {
   return (
     <div className={styles.container}>
       <div className={styles.form_container}>
-        <div className={styles.text}>로그인</div>
+        <div className={styles.text}>Login</div>
         <Form
           className={styles.form}
           name="basic"
@@ -45,31 +45,31 @@ function LoginPage() {
           autoComplete="off"
         >
           <Form.Item
-            label="학교 이메일"
-            name="email"
+            label="ID"
+            name="id"
             rules={[
               {
                 required: true,
-                message: "학교 이메일 주소를 입력하세요.",
+                message: "ID",
               },
             ]}
           >
-            <Input addonAfter="@cau.ac.kr" />
+            <Input />
           </Form.Item>
           <Form.Item
-            label="비밀번호"
+            label="PW"
             name="password"
-            rules={[{ required: true, message: "비밀번호를 입력하세요." }]}
+            rules={[{ required: true, message: "password" }]}
           >
             <Input.Password />
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
             <Button type="primary" htmlType="submit">
-              로그인
+              Login
             </Button>
             <span style={{ marginLeft: "50px" }}>No Account? </span>
             <Link to="/signup">
-              <u>Sign Up MatChing</u>
+              <u>Sign Up</u>
             </Link>
           </Form.Item>
         </Form>

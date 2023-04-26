@@ -17,7 +17,7 @@ function NotFound() {
               window.location.replace("/");
             }}
           >
-            메인 페이지로 돌아가기
+            Back to Home
           </Button>
         }
       />
