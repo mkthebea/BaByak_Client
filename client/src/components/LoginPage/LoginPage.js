@@ -50,7 +50,7 @@ function LoginPage() {
             rules={[
               {
                 required: true,
-                message: "ID",
+                message: "Enter ID",
               },
             ]}
           >
@@ -59,7 +59,7 @@ function LoginPage() {
           <Form.Item
             label="PW"
             name="password"
-            rules={[{ required: true, message: "password" }]}
+            rules={[{ required: true, message: "Enter password" }]}
           >
             <Input.Password />
           </Form.Item>
