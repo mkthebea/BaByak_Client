@@ -121,7 +121,7 @@ const App = () => {
                 color: "rgb(5,109,178)",
                 fontSize: "25px",
                 display: "flex",
-                marginLeft: "40px",
+                marginLeft: "20px",
                 width: "60%",
                 height: "100%",
                 backgroundColor: "#3D56B2",
