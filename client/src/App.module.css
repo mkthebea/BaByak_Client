@@ -1,0 +1,185 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap'); */
+body {
+  overflow: hidden;
+}
+.App {
+  text-align: center;
+}
+/* .App-logo {
+  height: 40px;
+  pointer-events: none;
+} */
+
+/* @media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+} */
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+/* .App-link {
+  color: #61dafb;
+} */
+
+/* @keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} */
+#components-layout-demo-custom-trigger .trigger {
+  padding: 0 24px;
+  font-size: 18px;
+  line-height: 64px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+#components-layout-demo-custom-trigger .trigger:hover {
+  color: #1890ff;
+}
+
+/* #components-layout-demo-custom-trigger .logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.3);
+} */
+
+/* .site-layout .site-layout-background {
+  background: #fff;
+} */
+
+/* custom */
+
+@font-face {
+  font-family: "SDSamliphopangche_Outline";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Outline.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "SDSamliphopangche_Basic";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Basic.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "TheJamsil5Bold";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+.font {
+  font-family: "TheJamsil5Bold", sans-serif;
+}
+.logo {
+  /* width: 90%; */
+  height: 50%;
+  display: block;
+  margin: 20px auto;
+}
+.header {
+  background: #fff;
+  padding: 0;
+  background-color: white;
+  text-align: center;
+  font-weight: bolder;
+  font-size: 20px;
+  height: 10vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 50px 0px 20px;
+  color: black;
+}
+
+@keyframes bounce {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 20px, 0);
+  }
+}
+
+.food_container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: baseline;
+}
+
+.food {
+  font-size: 30px;
+  animation: bounce 1s cubic-bezier(0.5, 0.05, 1, 0.5) infinite alternate;
+}
+
+.food2 {
+  font-size: 30px;
+  animation: bounce 1s cubic-bezier(0.5, 0.05, 1, 0.5) 0.5s infinite alternate;
+}
+
+.text {
+  font-family: "TheJamsil5Bold", sans-serif;
+  font-size: 20px;
+  font-weight: lighter;
+  color: white;
+}
+
+.menu_link {
+  color: white;
+  font-size: 12px;
+  font-family: "TheJamsil5Bold", sans-serif;
+  /* width: 100%; */
+}
+.menu_link:visited {
+  color: white;
+}
+.menu_link:hover {
+  /* color: rgb(0, 157, 255); */
+  color: white;
+}
+/* .menu_link:active {
+  color: rgb(0,157,255);
+} */
+.menu_link:focus {
+  color: rgb(0, 157, 255);
+}
+/* .menu_item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+::-webkit-scrollbar {
+  width: 16px;
+}
+::-webkit-scrollbar-track {
+  background-color: #f6f1f1;
+  /* box-shadow: inset 0px 0px 15px skyblue;
+  border-radius: 30px; */
+}
+::-webkit-scrollbar-thumb {
+  background-color: #146c94;
+  background-clip: padding-box;
+  border: 4px solid transparent;
+  /* border-radius: 10px; */
+  height: 30%;
+}
