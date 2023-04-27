@@ -27,7 +27,7 @@ function SignupSuccessPage() {
         <Result
           status="success"
           title="회원 가입 성공!"
-          subTitle="뺩약 회원이 되신걸 환영합니다."
+          subTitle="🐤🐤 뺩약뺩약! 🐤🐤"
           extra={[
             <Button
               type="primary"

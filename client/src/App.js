@@ -140,7 +140,10 @@ const App = () => {
             </Menu>
             <div className={styles.food_container}>
               <div className={styles.text}>
-                소마인의 밥약 매칭&nbsp;&nbsp;&nbsp;
+                <span className={styles.desc}>
+                  소마인의 밥약 매칭&nbsp;&nbsp;&nbsp;
+                </span>
+                뺩약 &nbsp;&nbsp;&nbsp;
               </div>
               <div className={styles.food}>🍔</div>
               <div className={styles.food2}>🍜</div>
