@@ -16,7 +16,7 @@ import LoginPage from "./components/LoginPage/LoginPage";
 import MainPage from "./components/MainPage/MainPage";
 import MyMatchingPage from "./components/MyMatchingPage/MyMatchingPage";
 import SignupPage from "./components/SignupPage/SignupPage";
-// import SignupSuccessPage from "./components/SignupPage/SignupSuccessPage";
+import SignupSuccessPage from "./components/SignupPage/SignupSuccessPage";
 import NewMatchingPage from "./components/NewMatchingPage/NewMatchingPage";
 import AuthFailedPage from "./components/AuthFailedPage/AuthFailedPage";
 import NotFound from "./components/NotFound/NotFound";
@@ -73,11 +73,12 @@ const App = () => {
                 // backgroundColor: "white",
                 color: "rgb(5,109,178)",
                 // fontSize: "50px",
-                display: "flex",
-                alignItems: "center",
+                // display: "flex",
+                // alignItems: "center",
+                verticalAlign: "center",
                 marginLeft: "20px",
-                width: "60%",
-                height: "10vh",
+                width: "50%",
+                height: "100%",
                 backgroundColor: "#3D56B2",
                 color: "white",
               }}
@@ -130,7 +131,7 @@ const App = () => {
               <Route path="/" element={<MainPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignupPage />} />
-              {/* <Route path="/signup/success" element={<SignupSuccessPage />} /> */}
+              <Route path="/signup/success" element={<SignupSuccessPage />} />
               <Route path="/detail" element={<DetailPage />} />
               <Route path="/mymatching" element={<MyMatchingPage />} />
               {/* <Route
