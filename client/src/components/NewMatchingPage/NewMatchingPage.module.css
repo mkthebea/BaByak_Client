@@ -8,15 +8,16 @@
 }
 
 .form_container {
+  margin-top: 15px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   /* align-items: center; */
   background-color: white;
-  padding: 30px;
+  /* padding: 30px; */
   border-radius: 10px;
-  width: 85vw;
-  height: 85vh;
+  width: 100%;
+  height: 80vh;
 }
 
 .text {
@@ -26,6 +27,7 @@
 }
 
 .button_container {
+  width: 1140px;
   display: flex;
   justify-content: flex-end;
 }

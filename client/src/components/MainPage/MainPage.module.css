@@ -50,6 +50,11 @@
 
 .modal {
   font-family: "TheJamsil5Bold", sans-serif;
+  align-items: center;
+}
+
+.modal_contents {
+  padding: 20px;
 }
 
 h1 {

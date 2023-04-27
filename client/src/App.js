@@ -28,8 +28,6 @@ import Logo from "./swm.png";
 const { Header, Content, Footer, Sider } = Layout;
 
 const App = () => {
-  const [collapsed, setCollapsed] = useState(false);
-
   axios.defaults.withCredentials = true;
 
   // 로그인 상태 확인
@@ -61,51 +59,6 @@ const App = () => {
   return (
     <Router>
       <Layout className={styles.font}>
-        {/* <Sider
-          trigger={null}
-          // collapsible
-          // collapsed={collapsed}
-          theme="light"
-          style={{ backgroundColor: "white" }}
-        >
-          <Link to="/">
-            <img src={Logo} className={styles.logo} />
-          </Link>
-          <Menu
-            theme="light"
-            mode="inline"
-            defaultSelectedKeys={["main"]}
-            style={{
-              backgroundColor: "white",
-              color: "rgb(5,109,178)",
-              fontSize: "20px",
-            }}
-          >
-            <Menu.Item key="main" icon={<HomeOutlined />}>
-              <Link to="/" className={styles.menu_link}>
-                메인 페이지
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="mymatching" icon={<ClockCircleOutlined />}>
-              <Link to="/mymatching" className={styles.menu_link}>
-                내 맛칭
-              </Link>
-            </Menu.Item>
-            {login ? (
-              <Menu.Item key="logout" icon={<LogoutOutlined />}>
-                <div onClick={logout} className={styles.menu_link}>
-                  로그아웃
-                </div>
-              </Menu.Item>
-            ) : (
-              <Menu.Item key="login" icon={<LoginOutlined />}>
-                <Link to="/login" className={styles.menu_link}>
-                  로그인
-                </Link>
-              </Menu.Item>
-            )}
-          </Menu>
-        </Sider> */}
         <Layout className="site-layout">
           <Header
             className={styles.header}
@@ -152,16 +105,6 @@ const App = () => {
                 </Menu.Item>
               )}
             </Menu>
-            {/* 햄버거 삭제 */}
-            {/* <div style={{ color: "rgb(110,165,254)" }}>
-              {React.createElement(
-                collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-                {
-                  className: "trigger",
-                  onClick: () => setCollapsed(!collapsed),
-                }
-              )}
-            </div> */}
             <div className={styles.food_container}>
               <div className={styles.text}>
                 소마인의 밥약 매칭&nbsp;&nbsp;&nbsp;
