@@ -19,8 +19,8 @@ function DetailPage(props) {
 
   const people_limit = data.people_limit;
   const joined_status = data.joined_status;
-  const start_time = data.start_time;
-  const end_time = data.end_time;
+  const starts_at = data.starts_at;
+  const ends_at = data.ends_at;
   const description = data.description;
   const joined = data.joined;
   const id = data.id;
@@ -49,10 +49,10 @@ function DetailPage(props) {
         </Descriptions.Item>
 
         <Descriptions.Item label="시작 시간" span={2}>
-          {start_time}
+          {starts_at}
         </Descriptions.Item>
         <Descriptions.Item label="끝나는 시간" span={2}>
-          {end_time}
+          {ends_at}
         </Descriptions.Item>
       </Descriptions>
     </div>
