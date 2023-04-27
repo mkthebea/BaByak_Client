@@ -72,11 +72,12 @@ const App = () => {
               style={{
                 // backgroundColor: "white",
                 color: "rgb(5,109,178)",
-                fontSize: "25px",
+                // fontSize: "50px",
                 display: "flex",
+                alignItems: "center",
                 marginLeft: "20px",
                 width: "60%",
-                height: "100%",
+                height: "10vh",
                 backgroundColor: "#3D56B2",
                 color: "white",
               }}

@@ -95,14 +95,15 @@ body {
   margin: 20px auto;
 }
 .header {
+  display: flex;
   background: #fff;
   padding: 0;
   background-color: white;
   text-align: center;
   font-weight: bolder;
-  font-size: 20px;
+  /* font-size: 50px; */
   height: 10vh;
-  display: flex;
+  align-items: baseline;
   justify-content: space-between;
   align-items: center;
   padding: 0px 50px 0px 20px;
@@ -145,7 +146,7 @@ body {
 
 .menu_link {
   color: white;
-  font-size: 12px;
+  font-size: 16px;
   font-family: "TheJamsil5Bold", sans-serif;
   /* width: 100%; */
 }
