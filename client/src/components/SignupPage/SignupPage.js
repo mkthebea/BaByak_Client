@@ -13,7 +13,7 @@ import {
 import styles from "./SignupPage.module.css";
 import axios from "axios";
 import { doSignup } from "../../api/users";
-import { getCookie } from "../../api/util"
+import { getCookie } from "../../api/util";
 
 function SignupPage() {
   const [signUp, setSignUp] = useState(false);
@@ -22,34 +22,26 @@ function SignupPage() {
     console.log("values: ", values);
     if (values.password !== values.okPassword) {
       message.error("비밀번호 확인이 틀립니다.");
-    }
-    else {
-      const SignupData = values
-      console.log(0, SignupData)
+    } else {
+      const SignupData = values;
+      console.log(0, SignupData);
       const response = await doSignup(SignupData)
         .then((SignupResult) => {
           message.success("가입 완료");
           setTimeout(() => {
-            window.location.replace('/login');
+            window.location.replace("/login");
           }, 1000);
         })
         .catch((error) => {
           console.log(">>>", error);
         });
     }
-
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.form_container}>
-        {signUp ? (
-          <Result
-            icon={<SmileOutlined />}
-            title="학교 이메일로 인증 메일을 보냈어요."
-            subTitle="이메일 인증을 마치면 회원가입이 완료됩니다."
-          />
-        ) : (
+        {
           <>
             <Alert
               message="실제와 다른 정보로 활동할 경우 계정이 영구 정지됩니다."
@@ -144,7 +136,7 @@ function SignupPage() {
               </Form.Item>
             </Form>
           </>
-        )}
+        }
       </div>
     </div>
   );

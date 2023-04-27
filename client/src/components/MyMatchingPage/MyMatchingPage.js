@@ -7,69 +7,7 @@ import Moment from "moment";
 import { getCookie } from "../../api/util";
 
 function MyMatchingPage() {
-  const { Option } = Select;
-  const { TextArea } = Input;
-
   const [userMatchingList, setUserMatchingList] = useState([]);
-
-  // const testData = [
-  //   {
-  //     category: "밥만 먹어요",
-  //     description: "dd",
-  //     host: "admin4",
-  //     place: "씨앗방 1",
-  //     starts_at: "2023-04-27T21:50:00",
-  //     joined_members: ["밈경"],
-  //   },
-  //   {
-  //     category: "밥만 먹어요",
-  //     description: "dd",
-  //     host: "admin4",
-  //     place: "씨앗방 1",
-  //     starts_at: "2023-04-27T21:50:00",
-  //     joined_members: ["밈경"],
-  //   },
-  //   {
-  //     category: "밥만 먹어요",
-  //     description: "dd",
-  //     host: "admin4",
-  //     place: "씨앗방 1",
-  //     starts_at: "2023-04-27T21:50:00",
-  //     joined_members: ["밈경"],
-  //   },
-  //   {
-  //     category: "밥만 먹어요",
-  //     description: "dd",
-  //     host: "admin4",
-  //     place: "씨앗방 1",
-  //     starts_at: "2023-04-27T21:50:00",
-  //     joined_members: ["밈경"],
-  //   },
-  //   {
-  //     category: "밥만 먹어요",
-  //     description: "dd",
-  //     host: "admin4",
-  //     place: "씨앗방 1",
-  //     starts_at: "2023-04-27T21:50:00",
-  //     joined_members: ["밈경"],
-  //   },
-  //   {
-  //     category: "밥만 먹어요",
-  //     description: "dd",
-  //     host: "admin4",
-  //     place: "씨앗방 1",
-  //     starts_at: "2023-04-27T21:50:00",
-  //     joined_members: ["밈경"],
-  //   },
-  //   {
-  //     category: "밥만 먹어요",
-  //     description: "dd",
-  //     host: "admin4",
-  //     place: "씨앗방 1",
-  //     starts_at: "2023-04-27T21:50:00",
-  //     joined_members: ["밈경"],
-  //   },
-  // ];
 
   // 내 맛칭 리스트 가져오기
   const fetchUserMatchingList = async () => {
@@ -77,11 +15,8 @@ function MyMatchingPage() {
     const response = getMyMatchings()
       .then((resp) => {
         setUserMatchingList(resp.data);
-        console.log(resp);
       })
       .catch((error) => {});
-
-    // console.log("my matching response: ", response);
   };
   useEffect(() => {
     fetchUserMatchingList();
@@ -110,7 +45,6 @@ function MyMatchingPage() {
       }
       remain += "남음";
     }
-    console.log(diff, remain);
     item["remain"] = remain;
     item["start_time"] = Moment(item.starts_at).format("MM/DD HH:mm");
   });
@@ -139,15 +73,6 @@ function MyMatchingPage() {
           message.error("알 수 없는 에러입니다.");
         }
       });
-
-    // const response = await axios.delete(`/api/matching/${id}/leave/`);
-    // // console.log("delete response: ", response);
-    // if (response.data.success) {
-    //   message.success("취소 완료");
-    //   fetchUserMatchingList(); // 취소 후 내 매칭 리스트 리로드
-    // } else {
-    //   message.error(response.data.errorMessage);
-    // }
   };
 
   return (
