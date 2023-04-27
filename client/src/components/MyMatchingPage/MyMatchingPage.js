@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./MyMatchingPage.module.css";
-import { Button, Card, List, Modal, Select, Input, Form, message } from "antd";
-import DetailPage from "../DetailPage/DetailPage";
+import { Button, Card, List, Select, Input, message } from "antd";
 import axios from "axios";
 import { getMyMatchings } from "../../api/matchings";
 
@@ -69,6 +68,7 @@ function MyMatchingPage() {
     const response = getMyMatchings()
       .then((resp) => {
         setUserMatchingList(resp.data);
+        console.log(resp);
       })
       .catch((error) => {});
 
