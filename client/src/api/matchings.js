@@ -1,8 +1,7 @@
 import axios from "axios";
-import { getCookie } from "./util";
 
 export async function getMatchings() {
-  const path = "/api/matchings/?status=마감 임박,모집중";
+  const path = "/api/matchings/?status=마감 임박,모집중,모집 완료";
 
   return axios.get(path);
 }
