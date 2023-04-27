@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { SearchOutlined, LoadingOutlined } from "@ant-design/icons";
+import { SearchOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { Button, Input, Space, Table, Tag, Modal, message } from "antd";
+import { Link } from "react-router-dom";
 import Highlighter from "react-highlight-words";
 import styles from "./MainPage.module.css";
 import axios from "axios";
@@ -247,7 +248,7 @@ function MainPage() {
       description: "떡볶이팟 구합니다~",
     },
     {
-      status: "모집중",
+      status: "마감 임박",
       people_limit: 5,
       joined: ["김민경", "김혜연"],
       start_time: "2022-08-10 16:00",
@@ -323,14 +324,18 @@ function MainPage() {
       <div className={styles.container}>
         <div className={styles.table_container}>
           <Table
-            scroll={{ y: "60vh" }}
+            scroll={{ y: "50vh" }}
             pagination={false}
             columns={columns}
             bordered={true}
             // dataSource={matchingList}
             dataSource={testData}
+            footer={() => (
+              <Link to="/newmatching" className={styles.new_matching}>
+                <PlusCircleOutlined />
+              </Link>
+            )}
             className={styles.table}
-            // footer={() => "Footer"}
           />
         </div>
         <Modal
