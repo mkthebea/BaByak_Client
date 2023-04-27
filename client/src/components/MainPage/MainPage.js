@@ -1,8 +1,7 @@
-import { PlusCircleOutlined, SearchOutlined } from "@ant-design/icons";
-import { Button, Input, Modal, Space, Table, Tag, message } from "antd";
+import { PlusCircleOutlined } from "@ant-design/icons";
+import { Button, Modal, Space, Table, Tag, message } from "antd";
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
-import Highlighter from "react-highlight-words";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./MainPage.module.css";
 
@@ -35,8 +34,7 @@ function MainPage() {
   };
 
   const handleOk = async () => {
-    console.log("매칭 신청: ", Id);
-    // console.log(matchingList);
+    // console.log("매칭 신청: ", Id);
 
     // 매칭 신청 요청 보내기
     axios
@@ -111,99 +109,6 @@ function MainPage() {
     fetchMatchingList();
   }, []);
 
-  // const [searchText, setSearchText] = useState("");
-  // const [searchedColumn, setSearchedColumn] = useState(0);
-  // const searchInput = useRef(null);
-  // const handleSearch = (selectedKeys, confirm, dataIndex) => {
-  //   confirm();
-  //   setSearchText(selectedKeys[0]);
-  //   setSearchedColumn(dataIndex);
-  // };
-
-  // const handleReset = (clearFilters) => {
-  //   clearFilters();
-  //   setSearchText("");
-  // };
-
-  // const getColumnSearchProps = (dataIndex) => ({
-  //   filterDropdown: ({
-  //     setSelectedKeys,
-  //     selectedKeys,
-  //     confirm,
-  //     clearFilters,
-  //   }) => (
-  //     <div
-  //       style={{
-  //         padding: 8,
-  //       }}
-  //     >
-  //       <Input
-  //         ref={searchInput}
-  //         placeholder={`Search ${dataIndex}`}
-  //         value={selectedKeys[0]}
-  //         onChange={(e) =>
-  //           setSelectedKeys(e.target.value ? [e.target.value] : [])
-  //         }
-  //         onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-  //         style={{
-  //           marginBottom: 8,
-  //           display: "block",
-  //         }}
-  //       />
-  //       <Space>
-  //         <Button
-  //           type="primary"
-  //           onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-  //           icon={<SearchOutlined />}
-  //           size="small"
-  //           style={{
-  //             width: 90,
-  //           }}
-  //         >
-  //           Search
-  //         </Button>
-  //         <Button
-  //           onClick={() => clearFilters && handleReset(clearFilters)}
-  //           size="small"
-  //           style={{
-  //             width: 90,
-  //           }}
-  //         >
-  //           Reset
-  //         </Button>
-  //       </Space>
-  //     </div>
-  //   ),
-  //   filterIcon: (filtered) => (
-  //     <SearchOutlined
-  //       style={{
-  //         color: filtered ? "#1890ff" : undefined,
-  //       }}
-  //     />
-  //   ),
-  //   onFilter: (value, record) =>
-  //     record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-  //   onFilterDropdownVisibleChange: (visible) => {
-  //     if (visible) {
-  //       setTimeout(() => searchInput.current?.select(), 100);
-  //     }
-  //   },
-  //   render: (text) =>
-  //     searchedColumn === dataIndex ? (
-  //       <Highlighter
-  //         highlightStyle={{
-  //           backgroundColor: "#ffc069",
-  //           padding: 0,
-  //         }}
-  //         searchWords={[searchText]}
-  //         autoEscape
-  //         textToHighlight={text ? text.toString() : ""}
-  //       />
-  //     ) : (
-  //       text
-  //     ),
-  // });
-
   // 테이블 데이터
   const columns = [
     {
@@ -274,84 +179,6 @@ function MainPage() {
       align: "center",
     },
   ];
-  // const testData = [
-  //   {
-  //     status: "마감 임박",
-  //     people_limit: 5,
-  //     joined: ["김민경", "장율"],
-  //     starts_at: "2022-04-28 19:00",
-  //     ends_at: "2022-04-28 21:00",
-  //     matching_id: 1,
-  //     description: "떡볶이팟 구합니다~",
-  //   },
-  //   {
-  //     status: "마감 임박",
-  //     people_limit: 3,
-  //     joined: ["박유빈", "문상희", "김민경"],
-  //     starts_at: "2022-04-28 19:00",
-  //     ends_at: "2022-08-28 21:00",
-  //     matching_id: 2,
-  //     description: "떡볶이팟 구합니다~",
-  //   },
-  //   {
-  //     status: "모집중",
-  //     people_limit: 4,
-  //     joined: ["김민경", "최영해"],
-  //     starts_at: "2022-04-28 20:00",
-  //     ends_at: "2022-04-28 22:00",
-  //     matching_id: 3,
-  //     description: "떡볶이팟 구합니다~",
-  //   },
-  //   {
-  //     status: "모집중",
-  //     people_limit: 5,
-  //     joined: ["김민석", "김혜연"],
-  //     starts_at: "2022-04-28 21:00",
-  //     ends_at: "2022-04-28 22:00",
-  //     matching_id: 4,
-  //     description: "떡볶이팟 구합니다~",
-  //   },
-  //   {
-  //     status: "모집중",
-  //     people_limit: 5,
-  //     joined: ["김민경", "김혜연"],
-  //     starts_at: "2022-04-29 12:00",
-  //     ends_at: "2022-04-29 15:00",
-  //     matching_id: 5,
-  //     description: "떡볶이팟 구합니다~",
-  //   },
-  //   {
-  //     status: "모집중",
-  //     people_limit: 5,
-  //     joined: ["김민경", "김혜연", "장율"],
-  //     starts_at: "2022-04-29 16:00",
-  //     ends_at: "2022-04-29 18:00",
-  //     matching_id: 6,
-  //     description: "떡볶이팟 구합니다~",
-  //   },
-  //   {
-  //     status: "모집중",
-  //     people_limit: 5,
-  //     joined: ["김민경", "김혜연", "강경아"],
-  //     starts_at: "2022-04-29 20:00",
-  //     ends_at: "2022-04-29 22:00",
-  //     matching_id: 7,
-  //     description: "떡볶이팟 구합니다~",
-  //   },
-  //   {
-  //     status: "모집중",
-  //     people_limit: 5,
-  //     joined: ["김민경", "김혜연"],
-  //     starts_at: "2022-08-10 16:00",
-  //     ends_at: "2022-08-10 16:00",
-  //     matching_id: 8,
-  //     description: "떡볶이팟 구합니다~",
-  //   },
-  // ];
-
-  // testData.forEach((m) => {
-  //   m.join_status = m.joined.length + " / " + m.people_limit;
-  // });
 
   return (
     <div className={styles.main_container}>

@@ -57,10 +57,6 @@
   font-size: 12px;
   color: rgb(242, 91, 91);
 }
-/* .diff_text_waiting {
-  font-size: 12px;
-  color: gray;
-} */
 
 .content_button {
   width: 40%;
@@ -70,10 +66,6 @@
 
 .waiting {
   background-color: rgb(217, 217, 217, 0.3);
-  /* width: 100% !important; */
-  /* width: 20vw; */
-  /* opacity: 0.3; */
-  /* color: white; */
 }
 
 .people {

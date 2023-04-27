@@ -7,15 +7,6 @@ function DetailPage(props) {
   const data = props.data;
   console.log(props);
 
-  // const name = data.name;
-  // const waiting = data.waiting;
-  // // const tags = data.tags;
-  // // const date = data.date;
-  // // const description = data.description;
-  // // const max = data.max;
-  // // const id = data.id;
-  // const matchings = data.matchings;
-
   const people_limit = data.people_limit;
   const starts_at = data.starts_at;
   const ends_at = data.ends_at;
