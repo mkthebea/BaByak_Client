@@ -10,15 +10,15 @@
 }
 
 .form_container {
+  margin-top: 15px;
+  background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: white;
-  padding: 30px;
   border-radius: 10px;
-  width: 85vw;
-  height: 85vh;
+  height: 80vh;
+  width: 100%;
 }
 
 .form {
