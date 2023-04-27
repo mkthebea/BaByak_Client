@@ -4,24 +4,40 @@ import { Link } from "react-router-dom";
 import { Button, Checkbox, Form, Input, message } from "antd";
 import styles from "./LoginPage.module.css";
 import axios from "axios";
+import { doLogin } from "../../api/users";
+import { getCookie } from "../../api/util";
 
 function LoginPage() {
   const onFinish = async (values) => {
     // 로그인 성공시 메인 페이지로 이동
     let loginData = values;
-    loginData["email"] += "@cau.ac.kr";
 
-    const response = await axios.post("/api/account/login/", loginData);
-    console.log("login send data: ", values);
-    console.log("login response: ", response);
-    if (response.data.success) {
-      message.success("로그인 성공");
-      setTimeout(() => {
-        window.location.replace("/");
-      }, 1000);
-    } else {
-      message.error("로그인 실패");
-    }
+    const response = await doLogin(loginData)
+      .then((loginResult) => {
+        message.success("로그인 성공");
+        axios.defaults.headers.common = {
+          "x-csrftoken": getCookie("csrftoken"),
+        };
+
+        setTimeout(() => {
+          window.location.replace("/");
+        }, 1000);
+      })
+      .catch((error) => {
+        console.log(">>>", error);
+      });
+
+    // const response = await axios.post("/api/account/login/", loginData);
+    // console.log("login send data: ", values);
+    // console.log("login response: ", response);
+    // if (response.data.success) {
+    //   message.success("로그인 성공");
+    //   setTimeout(() => {
+    //     window.location.replace("/");
+    //   }, 1000);
+    // } else {
+    //   message.error("로그인 실패");
+    // }
 
     // fetchLogin();
   };
@@ -46,7 +62,7 @@ function LoginPage() {
         >
           <Form.Item
             label="ID"
-            name="id"
+            name="username"
             rules={[
               {
                 required: true,
