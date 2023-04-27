@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import styles from "./MainPage.module.css";
 
 import { getMatchings } from "../../api/matchings";
-import { stringfy_date } from "../../api/util";
+import { getCookie, stringfy_date } from "../../api/util";
 import DetailPage from "../DetailPage/DetailPage";
 
 function MainPage() {
@@ -35,20 +35,46 @@ function MainPage() {
   };
 
   const handleOk = async () => {
-    console.log("매칭 신청: ", { id: Id });
+    console.log("매칭 신청: ", Id);
     // console.log(matchingList);
 
     // 매칭 신청 요청 보내기
-    // const res = joinMatching();
-    const response = await axios.post(`/api/matching/${Id}/join/`);
-    if (response.data.success) {
-      message.success("신청 완료!");
-      setTimeout(() => {
-        setIsModalVisible(false);
-      }, 1000);
-    } else {
-      message.error(response.data.errorMessage);
-    }
+    axios
+      .post(
+        `/api/matchings/${Id}/join`,
+        {},
+        {
+          headers: {
+            "x-csrftoken": getCookie("csrftoken"),
+          },
+        }
+      )
+      .then((resp) => {
+        message.success("신청 완료!");
+        setTimeout(() => {
+          setIsModalVisible(false);
+        }, 1000);
+      })
+      .catch((err) => {
+        const status = err.response.status;
+
+        if (status === 400) {
+          message.error("마감된 모임입니다.");
+        } else if (status === 403) {
+          message.error("로그인이 필요합니다.");
+        } else if (status === 409) {
+          const detailCode = err.response.data.code;
+          if (detailCode === 1) {
+            message.error("이미 호스트로서 참가되어 있습니다.");
+          } else if (detailCode === 2) {
+            message.error("이미 소속되어 있는 모임입니다.");
+          } else {
+            message.error(
+              "알 수 없는 에러입니다. : " + err.response.data.message
+            );
+          }
+        }
+      });
   };
 
   const handleCancel = () => {
@@ -85,116 +111,98 @@ function MainPage() {
     fetchMatchingList();
   }, []);
 
-  //   matchingList.forEach((m) => {
-  //     if (m.waiting === 0) m.tags = [];
-  //     else {
-  //       m.tags = [
-  //         ...new Set(
-  //           m.matchings.reduce((acc, cur) => {
-  //             acc.push(...cur.tags);
-  //             return acc;
-  //           }, [])
-  //         ),
-  //       ];
+  // const [searchText, setSearchText] = useState("");
+  // const [searchedColumn, setSearchedColumn] = useState(0);
+  // const searchInput = useRef(null);
+  // const handleSearch = (selectedKeys, confirm, dataIndex) => {
+  //   confirm();
+  //   setSearchText(selectedKeys[0]);
+  //   setSearchedColumn(dataIndex);
+  // };
+
+  // const handleReset = (clearFilters) => {
+  //   clearFilters();
+  //   setSearchText("");
+  // };
+
+  // const getColumnSearchProps = (dataIndex) => ({
+  //   filterDropdown: ({
+  //     setSelectedKeys,
+  //     selectedKeys,
+  //     confirm,
+  //     clearFilters,
+  //   }) => (
+  //     <div
+  //       style={{
+  //         padding: 8,
+  //       }}
+  //     >
+  //       <Input
+  //         ref={searchInput}
+  //         placeholder={`Search ${dataIndex}`}
+  //         value={selectedKeys[0]}
+  //         onChange={(e) =>
+  //           setSelectedKeys(e.target.value ? [e.target.value] : [])
+  //         }
+  //         onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+  //         style={{
+  //           marginBottom: 8,
+  //           display: "block",
+  //         }}
+  //       />
+  //       <Space>
+  //         <Button
+  //           type="primary"
+  //           onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+  //           icon={<SearchOutlined />}
+  //           size="small"
+  //           style={{
+  //             width: 90,
+  //           }}
+  //         >
+  //           Search
+  //         </Button>
+  //         <Button
+  //           onClick={() => clearFilters && handleReset(clearFilters)}
+  //           size="small"
+  //           style={{
+  //             width: 90,
+  //           }}
+  //         >
+  //           Reset
+  //         </Button>
+  //       </Space>
+  //     </div>
+  //   ),
+  //   filterIcon: (filtered) => (
+  //     <SearchOutlined
+  //       style={{
+  //         color: filtered ? "#1890ff" : undefined,
+  //       }}
+  //     />
+  //   ),
+  //   onFilter: (value, record) =>
+  //     record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+  //   onFilterDropdownVisibleChange: (visible) => {
+  //     if (visible) {
+  //       setTimeout(() => searchInput.current?.select(), 100);
   //     }
-  //   });
-
-  // 검색창 관리
-  const [searchText, setSearchText] = useState("");
-  const [searchedColumn, setSearchedColumn] = useState(0);
-  const searchInput = useRef(null);
-  const handleSearch = (selectedKeys, confirm, dataIndex) => {
-    confirm();
-    setSearchText(selectedKeys[0]);
-    setSearchedColumn(dataIndex);
-  };
-
-  const handleReset = (clearFilters) => {
-    clearFilters();
-    setSearchText("");
-  };
-
-  const getColumnSearchProps = (dataIndex) => ({
-    filterDropdown: ({
-      setSelectedKeys,
-      selectedKeys,
-      confirm,
-      clearFilters,
-    }) => (
-      <div
-        style={{
-          padding: 8,
-        }}
-      >
-        <Input
-          ref={searchInput}
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={(e) =>
-            setSelectedKeys(e.target.value ? [e.target.value] : [])
-          }
-          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{
-            marginBottom: 8,
-            display: "block",
-          }}
-        />
-        <Space>
-          <Button
-            type="primary"
-            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-            icon={<SearchOutlined />}
-            size="small"
-            style={{
-              width: 90,
-            }}
-          >
-            Search
-          </Button>
-          <Button
-            onClick={() => clearFilters && handleReset(clearFilters)}
-            size="small"
-            style={{
-              width: 90,
-            }}
-          >
-            Reset
-          </Button>
-        </Space>
-      </div>
-    ),
-    filterIcon: (filtered) => (
-      <SearchOutlined
-        style={{
-          color: filtered ? "#1890ff" : undefined,
-        }}
-      />
-    ),
-    onFilter: (value, record) =>
-      record[dataIndex]
-        .toString()
-        .toLowerCase()
-        .includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: (visible) => {
-      if (visible) {
-        setTimeout(() => searchInput.current?.select(), 100);
-      }
-    },
-    render: (text) =>
-      searchedColumn === dataIndex ? (
-        <Highlighter
-          highlightStyle={{
-            backgroundColor: "#ffc069",
-            padding: 0,
-          }}
-          searchWords={[searchText]}
-          autoEscape
-          textToHighlight={text ? text.toString() : ""}
-        />
-      ) : (
-        text
-      ),
-  });
+  //   },
+  //   render: (text) =>
+  //     searchedColumn === dataIndex ? (
+  //       <Highlighter
+  //         highlightStyle={{
+  //           backgroundColor: "#ffc069",
+  //           padding: 0,
+  //         }}
+  //         searchWords={[searchText]}
+  //         autoEscape
+  //         textToHighlight={text ? text.toString() : ""}
+  //       />
+  //     ) : (
+  //       text
+  //     ),
+  // });
 
   // 테이블 데이터
   const columns = [
@@ -266,84 +274,84 @@ function MainPage() {
       align: "center",
     },
   ];
-  const testData = [
-    {
-      status: "마감 임박",
-      people_limit: 5,
-      joined: ["김민경", "김혜연"],
-      starts_at: "2022-08-10 15:00",
-      ends_at: "2022-08-10 18:00",
-      matching_id: 1,
-      description: "떡볶이팟 구합니다~",
-    },
-    {
-      status: "마감 임박",
-      people_limit: 5,
-      joined: ["김민경", "김혜연"],
-      starts_at: "2022-08-10 16:00",
-      ends_at: "2022-08-10 16:00",
-      matching_id: 2,
-      description: "떡볶이팟 구합니다~",
-    },
-    {
-      status: "모집중",
-      people_limit: 5,
-      joined: ["김민경", "김혜연"],
-      starts_at: "2022-08-10 16:00",
-      ends_at: "2022-08-10 16:00",
-      matching_id: 3,
-      description: "떡볶이팟 구합니다~",
-    },
-    {
-      status: "모집중",
-      people_limit: 5,
-      joined: ["김민경", "김혜연"],
-      starts_at: "2022-08-10 16:00",
-      ends_at: "2022-08-10 16:00",
-      matching_id: 4,
-      description: "떡볶이팟 구합니다~",
-    },
-    {
-      status: "모집중",
-      people_limit: 5,
-      joined: ["김민경", "김혜연"],
-      starts_at: "2022-08-10 16:00",
-      ends_at: "2022-08-10 16:00",
-      matching_id: 5,
-      description: "떡볶이팟 구합니다~",
-    },
-    {
-      status: "모집중",
-      people_limit: 5,
-      joined: ["김민경", "김혜연"],
-      starts_at: "2022-08-10 16:00",
-      ends_at: "2022-08-10 16:00",
-      matching_id: 6,
-      description: "떡볶이팟 구합니다~",
-    },
-    {
-      status: "모집중",
-      people_limit: 5,
-      joined: ["김민경", "김혜연"],
-      starts_at: "2022-08-10 16:00",
-      ends_at: "2022-08-10 16:00",
-      matching_id: 7,
-      description: "떡볶이팟 구합니다~",
-    },
-    {
-      status: "모집중",
-      people_limit: 5,
-      joined: ["김민경", "김혜연"],
-      starts_at: "2022-08-10 16:00",
-      ends_at: "2022-08-10 16:00",
-      matching_id: 8,
-      description: "떡볶이팟 구합니다~",
-    },
-  ];
+  // const testData = [
+  //   {
+  //     status: "마감 임박",
+  //     people_limit: 5,
+  //     joined: ["김민경", "장율"],
+  //     starts_at: "2022-04-28 19:00",
+  //     ends_at: "2022-04-28 21:00",
+  //     matching_id: 1,
+  //     description: "떡볶이팟 구합니다~",
+  //   },
+  //   {
+  //     status: "마감 임박",
+  //     people_limit: 3,
+  //     joined: ["박유빈", "문상희", "김민경"],
+  //     starts_at: "2022-04-28 19:00",
+  //     ends_at: "2022-08-28 21:00",
+  //     matching_id: 2,
+  //     description: "떡볶이팟 구합니다~",
+  //   },
+  //   {
+  //     status: "모집중",
+  //     people_limit: 4,
+  //     joined: ["김민경", "최영해"],
+  //     starts_at: "2022-04-28 20:00",
+  //     ends_at: "2022-04-28 22:00",
+  //     matching_id: 3,
+  //     description: "떡볶이팟 구합니다~",
+  //   },
+  //   {
+  //     status: "모집중",
+  //     people_limit: 5,
+  //     joined: ["김민석", "김혜연"],
+  //     starts_at: "2022-04-28 21:00",
+  //     ends_at: "2022-04-28 22:00",
+  //     matching_id: 4,
+  //     description: "떡볶이팟 구합니다~",
+  //   },
+  //   {
+  //     status: "모집중",
+  //     people_limit: 5,
+  //     joined: ["김민경", "김혜연"],
+  //     starts_at: "2022-04-29 12:00",
+  //     ends_at: "2022-04-29 15:00",
+  //     matching_id: 5,
+  //     description: "떡볶이팟 구합니다~",
+  //   },
+  //   {
+  //     status: "모집중",
+  //     people_limit: 5,
+  //     joined: ["김민경", "김혜연", "장율"],
+  //     starts_at: "2022-04-29 16:00",
+  //     ends_at: "2022-04-29 18:00",
+  //     matching_id: 6,
+  //     description: "떡볶이팟 구합니다~",
+  //   },
+  //   {
+  //     status: "모집중",
+  //     people_limit: 5,
+  //     joined: ["김민경", "김혜연", "강경아"],
+  //     starts_at: "2022-04-29 20:00",
+  //     ends_at: "2022-04-29 22:00",
+  //     matching_id: 7,
+  //     description: "떡볶이팟 구합니다~",
+  //   },
+  //   {
+  //     status: "모집중",
+  //     people_limit: 5,
+  //     joined: ["김민경", "김혜연"],
+  //     starts_at: "2022-08-10 16:00",
+  //     ends_at: "2022-08-10 16:00",
+  //     matching_id: 8,
+  //     description: "떡볶이팟 구합니다~",
+  //   },
+  // ];
 
-  testData.forEach((m) => {
-    m.join_status = m.joined.length + " / " + m.people_limit;
-  });
+  // testData.forEach((m) => {
+  //   m.join_status = m.joined.length + " / " + m.people_limit;
+  // });
 
   return (
     <div className={styles.main_container}>

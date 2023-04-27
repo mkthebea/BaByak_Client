@@ -12,6 +12,8 @@ import {
 } from "antd";
 import styles from "./SignupPage.module.css";
 import axios from "axios";
+import { doSignup } from "../../api/users";
+import { getCookie } from "../../api/util"
 
 function SignupPage() {
   const [signUp, setSignUp] = useState(false);
@@ -21,6 +23,21 @@ function SignupPage() {
     if (values.password !== values.okPassword) {
       message.error("비밀번호 확인이 틀립니다.");
     }
+    else {
+      const SignupData = values
+      console.log(0, SignupData)
+      const response = await doSignup(SignupData)
+        .then((SignupResult) => {
+          message.success("가입 완료");
+          setTimeout(() => {
+            window.location.replace('/login');
+          }, 1000);
+        })
+        .catch((error) => {
+          console.log(">>>", error);
+        });
+    }
+
   };
 
   return (
@@ -65,11 +82,11 @@ function SignupPage() {
               <div className={styles.text}>Sign up</div>
               <Form.Item
                 label="아이디"
-                name="email"
+                name="username"
                 rules={[
                   {
                     required: true,
-                    message: "이메일 주소를 입력하세요.",
+                    message: "아이디를 입력하세요.",
                   },
                 ]}
               >
