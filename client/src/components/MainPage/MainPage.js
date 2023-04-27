@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
-import { SearchOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import { Button, Input, Space, Table, Tag, Modal, message } from "antd";
-import { Link } from "react-router-dom";
-import Highlighter from "react-highlight-words";
-import styles from "./MainPage.module.css";
+import { PlusCircleOutlined, SearchOutlined } from "@ant-design/icons";
+import { Button, Input, Modal, Space, Table, Tag, message } from "antd";
 import axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
+import Highlighter from "react-highlight-words";
+import { Link } from "react-router-dom";
+import styles from "./MainPage.module.css";
 
-import DetailPage from "../DetailPage/DetailPage";
-import { getMatchings } from "../../api/users";
+import { getMatchings } from "../../api/matchings";
 import { stringfy_date } from "../../api/util";
+import DetailPage from "../DetailPage/DetailPage";
 
 function MainPage() {
   // 모달 관리
@@ -29,7 +29,7 @@ function MainPage() {
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
   const showModal = (data) => {
-    // if (data.waiting === 0) setButtonDisabled(true);
+    if (data.status === "모집 완료") setButtonDisabled(true);
     setModalData(data);
     setIsModalVisible(true);
   };
@@ -252,9 +252,15 @@ function MainPage() {
     {
       title: "매칭 신청",
       key: "action",
-      render: (testData) => (
+      render: (matchingData) => (
         <Space>
-          <Button onClick={() => showModal(testData)}>신청하기😋</Button>
+          <Button
+            onClick={() => {
+              showModal(matchingData);
+            }}
+          >
+            신청하기😋
+          </Button>
         </Space>
       ),
       width: "150px",

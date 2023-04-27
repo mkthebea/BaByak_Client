@@ -7,3 +7,9 @@ export async function getMatchings() {
 
   return axios.get(API_SERVER + path);
 }
+
+export async function getSingleMatching(id) {
+  const path = "/matchings/" + id;
+
+  return axios.get(API_SERVER + path);
+}
