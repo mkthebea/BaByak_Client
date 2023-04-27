@@ -7,6 +7,8 @@ import styles from "./MainPage.module.css";
 import axios from "axios";
 
 import DetailPage from "../DetailPage/DetailPage";
+import { getMatchings } from "../../api/users";
+import { stringfy_date } from "../../api/util";
 
 function MainPage() {
   // 모달 관리
@@ -56,14 +58,33 @@ function MainPage() {
   const [matchingList, setMatchingList] = useState([]);
 
   const fetchMatchingList = async () => {
-    const response = await axios.get("/api/matzip/now/");
-    setMatchingList(response.data.matchingList);
-    console.log("main page response: ", response);
+    // const response = await axios.get("/api/matzip/now/");
+    const response = await getMatchings();
+
+    if (response.status === 200) {
+      response.data = response.data.map((v) => {
+        const join_status =
+          v.people_limit === null
+            ? `${v.joined_members.length}/N`
+            : `${v.joined_members.length}/${v.people_limit}`;
+
+        return {
+          ...v,
+          join_status,
+          starts_at: stringfy_date(new Date(v.starts_at)),
+          ends_at: stringfy_date(new Date(v.ends_at)),
+        };
+      });
+
+      setMatchingList(response.data);
+    } else {
+      console.log("error occurred:", response);
+    }
   };
 
-  //   useEffect(() => {
-  //     fetchMatchingList();
-  //   }, []);
+  useEffect(() => {
+    fetchMatchingList();
+  }, []);
 
   //   matchingList.forEach((m) => {
   //     if (m.waiting === 0) m.tags = [];
@@ -151,7 +172,10 @@ function MainPage() {
       />
     ),
     onFilter: (value, record) =>
-      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+      record[dataIndex]
+        .toString()
+        .toLowerCase()
+        .includes(value.toLowerCase()),
     onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInput.current?.select(), 100);
@@ -209,18 +233,18 @@ function MainPage() {
     },
     {
       title: "시작 시간",
-      dataIndex: "start_time",
-      key: "start_time",
-      // sorter: (a, b) => a.start_time - b.start_time,
+      dataIndex: "starts_at",
+      key: "starts_at",
+      // sorter: (a, b) => a.starts_at - b.starts_at,
       // sortDirections: ["descend", "ascend"],
       width: "100px",
       align: "center",
     },
     {
       title: "마감 시간",
-      dataIndex: "end_time",
-      key: "end_time",
-      // sorter: (a, b) => a.end_time - b.end_time,
+      dataIndex: "ends_at",
+      key: "ends_at",
+      // sorter: (a, b) => a.ends_at - b.ends_at,
       // sortDirections: ["descend", "ascend"],
       width: "100px",
       align: "center",
@@ -242,8 +266,8 @@ function MainPage() {
       status: "마감 임박",
       people_limit: 5,
       joined: ["김민경", "김혜연"],
-      start_time: "2022-08-10 15:00",
-      end_time: "2022-08-10 18:00",
+      starts_at: "2022-08-10 15:00",
+      ends_at: "2022-08-10 18:00",
       matching_id: 1,
       description: "떡볶이팟 구합니다~",
     },
@@ -251,8 +275,8 @@ function MainPage() {
       status: "마감 임박",
       people_limit: 5,
       joined: ["김민경", "김혜연"],
-      start_time: "2022-08-10 16:00",
-      end_time: "2022-08-10 16:00",
+      starts_at: "2022-08-10 16:00",
+      ends_at: "2022-08-10 16:00",
       matching_id: 2,
       description: "떡볶이팟 구합니다~",
     },
@@ -260,8 +284,8 @@ function MainPage() {
       status: "모집중",
       people_limit: 5,
       joined: ["김민경", "김혜연"],
-      start_time: "2022-08-10 16:00",
-      end_time: "2022-08-10 16:00",
+      starts_at: "2022-08-10 16:00",
+      ends_at: "2022-08-10 16:00",
       matching_id: 3,
       description: "떡볶이팟 구합니다~",
     },
@@ -269,8 +293,8 @@ function MainPage() {
       status: "모집중",
       people_limit: 5,
       joined: ["김민경", "김혜연"],
-      start_time: "2022-08-10 16:00",
-      end_time: "2022-08-10 16:00",
+      starts_at: "2022-08-10 16:00",
+      ends_at: "2022-08-10 16:00",
       matching_id: 4,
       description: "떡볶이팟 구합니다~",
     },
@@ -278,8 +302,8 @@ function MainPage() {
       status: "모집중",
       people_limit: 5,
       joined: ["김민경", "김혜연"],
-      start_time: "2022-08-10 16:00",
-      end_time: "2022-08-10 16:00",
+      starts_at: "2022-08-10 16:00",
+      ends_at: "2022-08-10 16:00",
       matching_id: 5,
       description: "떡볶이팟 구합니다~",
     },
@@ -287,8 +311,8 @@ function MainPage() {
       status: "모집중",
       people_limit: 5,
       joined: ["김민경", "김혜연"],
-      start_time: "2022-08-10 16:00",
-      end_time: "2022-08-10 16:00",
+      starts_at: "2022-08-10 16:00",
+      ends_at: "2022-08-10 16:00",
       matching_id: 6,
       description: "떡볶이팟 구합니다~",
     },
@@ -296,8 +320,8 @@ function MainPage() {
       status: "모집중",
       people_limit: 5,
       joined: ["김민경", "김혜연"],
-      start_time: "2022-08-10 16:00",
-      end_time: "2022-08-10 16:00",
+      starts_at: "2022-08-10 16:00",
+      ends_at: "2022-08-10 16:00",
       matching_id: 7,
       description: "떡볶이팟 구합니다~",
     },
@@ -305,8 +329,8 @@ function MainPage() {
       status: "모집중",
       people_limit: 5,
       joined: ["김민경", "김혜연"],
-      start_time: "2022-08-10 16:00",
-      end_time: "2022-08-10 16:00",
+      starts_at: "2022-08-10 16:00",
+      ends_at: "2022-08-10 16:00",
       matching_id: 8,
       description: "떡볶이팟 구합니다~",
     },
@@ -328,8 +352,8 @@ function MainPage() {
             pagination={false}
             columns={columns}
             bordered={true}
-            // dataSource={matchingList}
-            dataSource={testData}
+            dataSource={matchingList}
+            // dataSource={testData}
             footer={() => (
               <Link to="/newmatching" className={styles.new_matching}>
                 <PlusCircleOutlined />
