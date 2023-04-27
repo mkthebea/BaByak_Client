@@ -22,16 +22,17 @@
 
 .text {
   font-size: 30px;
-  margin: 20px;
+  /* margin: 20px; */
   align-self: center;
 }
 
 .button_container {
-  width: 1140px;
+  /* width: 1140px; */
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  margin-left: -50px;
 }
 
 .button {
-  /* background-color: aqua; */
+  width: 100px;
 }

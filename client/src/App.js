@@ -73,34 +73,65 @@ const App = () => {
                 // backgroundColor: "white",
                 color: "rgb(5,109,178)",
                 // fontSize: "50px",
-                // display: "flex",
-                // alignItems: "center",
-                verticalAlign: "center",
+                display: "flex",
+                alignItems: "center",
                 marginLeft: "20px",
                 width: "50%",
-                height: "100%",
+                height: "10vh",
                 backgroundColor: "#3D56B2",
                 color: "white",
               }}
             >
-              <Menu.Item key="main" icon={<HomeOutlined />}>
+              <Menu.Item
+                key="main"
+                icon={<HomeOutlined />}
+                style={{
+                  height: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
                 <Link to="/" className={styles.menu_link}>
                   Home
                 </Link>
               </Menu.Item>
-              <Menu.Item key="mymatching" icon={<ClockCircleOutlined />}>
+              <Menu.Item
+                key="mymatching"
+                icon={<ClockCircleOutlined />}
+                style={{
+                  height: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
                 <Link to="/mymatching" className={styles.menu_link}>
                   My Matching
                 </Link>
               </Menu.Item>
               {login ? (
-                <Menu.Item key="logout" icon={<LogoutOutlined />}>
+                <Menu.Item
+                  key="logout"
+                  icon={<LogoutOutlined />}
+                  style={{
+                    height: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
                   <div onClick={logout} className={styles.menu_link}>
                     Logout
                   </div>
                 </Menu.Item>
               ) : (
-                <Menu.Item key="login" icon={<LoginOutlined />}>
+                <Menu.Item
+                  key="login"
+                  icon={<LoginOutlined />}
+                  style={{
+                    height: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
                   <Link to="/login" className={styles.menu_link}>
                     Login
                   </Link>
@@ -109,7 +140,10 @@ const App = () => {
             </Menu>
             <div className={styles.food_container}>
               <div className={styles.text}>
-                소마인의 밥약 매칭&nbsp;&nbsp;&nbsp;
+                <span className={styles.desc}>
+                  소마인의 밥약 매칭&nbsp;&nbsp;&nbsp;
+                </span>
+                뺩약 &nbsp;&nbsp;&nbsp;
               </div>
               <div className={styles.food}>🍔</div>
               <div className={styles.food2}>🍜</div>
