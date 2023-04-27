@@ -1,7 +1,7 @@
-import { React, useState, useEffect } from "react";
+import { React } from "react";
 import { Link } from "react-router-dom";
 
-import { Button, Checkbox, Form, Input, message } from "antd";
+import { Button, Form, Input, message } from "antd";
 import styles from "./LoginPage.module.css";
 import axios from "axios";
 import { doLogin } from "../../api/users";
@@ -24,22 +24,8 @@ function LoginPage() {
         }, 1000);
       })
       .catch((error) => {
-        console.log(">>>", error);
+        message.error("로그인 실패");
       });
-
-    // const response = await axios.post("/api/account/login/", loginData);
-    // console.log("login send data: ", values);
-    // console.log("login response: ", response);
-    // if (response.data.success) {
-    //   message.success("로그인 성공");
-    //   setTimeout(() => {
-    //     window.location.replace("/");
-    //   }, 1000);
-    // } else {
-    //   message.error("로그인 실패");
-    // }
-
-    // fetchLogin();
   };
 
   const onFinishFailed = (errorInfo) => {

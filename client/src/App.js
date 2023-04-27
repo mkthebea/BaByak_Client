@@ -3,12 +3,8 @@ import {
   LoginOutlined,
   LogoutOutlined,
   ClockCircleOutlined,
-  PlusCircleOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, message } from "antd";
-// import "antd/dist/antd.min.css";
 import React, { useState, useEffect } from "react";
 import { Link, BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DetailPage from "./components/DetailPage/DetailPage";
@@ -27,7 +23,7 @@ import Logo from "./swm.png";
 import { doLogout, loginCheck } from "./api/users";
 import { removeCookie } from "./api/util";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content } = Layout;
 
 const App = () => {
   axios.defaults.withCredentials = true;
@@ -55,9 +51,6 @@ const App = () => {
       .then((logoutResult) => {
         message.success("로그아웃 완료");
         setLogin(false);
-        // setTimeout(() => {
-        //   window.location.replace("/");
-        // }, 1000);
         removeCookie("csrftoken");
         removeCookie("sessionid");
       })
@@ -65,9 +58,6 @@ const App = () => {
         message.success("로그아웃 실패");
         setLogin(false);
         console.log(error);
-        // setTimeout(() => {
-        //   window.location.replace("/");
-        // }, 1000);
       });
   };
 
@@ -85,9 +75,7 @@ const App = () => {
               mode="horizontal"
               defaultSelectedKeys={["main"]}
               style={{
-                // backgroundColor: "white",
                 color: "rgb(5,109,178)",
-                // fontSize: "50px",
                 display: "flex",
                 alignItems: "center",
                 marginLeft: "20px",
@@ -182,27 +170,15 @@ const App = () => {
               <Route path="/signup" element={<SignupPage />} />
               <Route path="/signup/success" element={<SignupSuccessPage />} />
               <Route path="/detail" element={<DetailPage />} />
-              <Route path="/mymatching" element={<MyMatchingPage />} />
-              {/* <Route
+              <Route
                 path="/mymatching"
                 element={login ? <MyMatchingPage /> : <AuthFailedPage />}
-              /> */}
+              />
               <Route path="/newmatching" element={<NewMatchingPage />} />
-              {/* <Route
-                path="/newmatching"
-                element={login ? <NewMatchingPage /> : <AuthFailedPage />}
-              /> */}
               <Route path="/authfailed" element={<AuthFailedPage />} />
               <Route path="/*" element={<NotFound />} />
             </Routes>
           </Content>
-          {/* <Footer
-            style={{
-              textAlign: "center",
-            }}
-          >
-            MatChing ©2022 Created by SanSuO
-          </Footer> */}
         </Layout>
       </Layout>
     </Router>
