@@ -39,6 +39,7 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  width: 100%;
 }
 
 .date_text {
@@ -67,12 +68,10 @@
   margin: 15px;
 }
 
-.modal {
-  font-family: "TheJamsil5Bold", sans-serif;
-}
-
 .waiting {
   background-color: rgb(217, 217, 217, 0.3);
+  /* width: 100% !important; */
+  /* width: 20vw; */
   /* opacity: 0.3; */
   /* color: white; */
 }

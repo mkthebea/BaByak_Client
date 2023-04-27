@@ -3,6 +3,7 @@ import styles from "./MyMatchingPage.module.css";
 import { Button, Card, List, Select, Input, message } from "antd";
 import axios from "axios";
 import { getMyMatchings } from "../../api/matchings";
+import Moment from "moment";
 
 function MyMatchingPage() {
   const { Option } = Select;
@@ -10,57 +11,64 @@ function MyMatchingPage() {
 
   const [userMatchingList, setUserMatchingList] = useState([]);
 
-  const testData = [
-    {
-      host: "김민경",
-      status: "모집중",
-      starts_at: "2023-04-28 06:00:00",
-      place: "1층",
-      joined: ["김민경", "김혜연"],
-    },
-    {
-      host: "김민경",
-      status: "모집중",
-      starts_at: "2023-04-28 12:00:00",
-      place: "7층 엘베 앞",
-      joined: ["김민경", "김혜연"],
-    },
-    {
-      host: "김민경",
-      status: "모집중",
-      starts_at: "2023-04-28 18:00:00",
-      place: "선릉역 5번 출구",
-      joined: ["김민경", "김혜연"],
-    },
-    {
-      host: "김민경",
-      status: "모집중",
-      starts_at: "2023-04-28 18:00:00",
-      place: "선릉역 5번 출구",
-      joined: ["김민경", "김혜연"],
-    },
-    {
-      host: "김민경",
-      status: "모집중",
-      starts_at: "2023-04-28 18:00:00",
-      place: "선릉역 5번 출구",
-      joined: ["김민경", "김혜연"],
-    },
-    {
-      host: "김민경",
-      status: "모집중",
-      starts_at: "2023-04-30 18:00:00",
-      place: "선릉역 5번 출구",
-      joined: ["김민경", "김혜연"],
-    },
-    {
-      host: "김민경",
-      status: "모집 완료",
-      starts_at: "2023-04-28 18:00:00",
-      place: "선릉역 5번 출구",
-      joined: ["김민경", "김혜연"],
-    },
-  ];
+  // const testData = [
+  //   {
+  //     category: "밥만 먹어요",
+  //     description: "dd",
+  //     host: "admin4",
+  //     place: "씨앗방 1",
+  //     starts_at: "2023-04-27T21:50:00",
+  //     joined_members: ["밈경"],
+  //   },
+  //   {
+  //     category: "밥만 먹어요",
+  //     description: "dd",
+  //     host: "admin4",
+  //     place: "씨앗방 1",
+  //     starts_at: "2023-04-27T21:50:00",
+  //     joined_members: ["밈경"],
+  //   },
+  //   {
+  //     category: "밥만 먹어요",
+  //     description: "dd",
+  //     host: "admin4",
+  //     place: "씨앗방 1",
+  //     starts_at: "2023-04-27T21:50:00",
+  //     joined_members: ["밈경"],
+  //   },
+  //   {
+  //     category: "밥만 먹어요",
+  //     description: "dd",
+  //     host: "admin4",
+  //     place: "씨앗방 1",
+  //     starts_at: "2023-04-27T21:50:00",
+  //     joined_members: ["밈경"],
+  //   },
+  //   {
+  //     category: "밥만 먹어요",
+  //     description: "dd",
+  //     host: "admin4",
+  //     place: "씨앗방 1",
+  //     starts_at: "2023-04-27T21:50:00",
+  //     joined_members: ["밈경"],
+  //   },
+  //   {
+  //     category: "밥만 먹어요",
+  //     description: "dd",
+  //     host: "admin4",
+  //     place: "씨앗방 1",
+  //     starts_at: "2023-04-27T21:50:00",
+  //     joined_members: ["밈경"],
+  //   },
+  //   {
+  //     category: "밥만 먹어요",
+  //     description: "dd",
+  //     host: "admin4",
+  //     place: "씨앗방 1",
+  //     starts_at: "2023-04-27T21:50:00",
+  //     joined_members: ["밈경"],
+  //   },
+  // ];
 
   // 내 맛칭 리스트 가져오기
   const fetchUserMatchingList = async () => {
@@ -80,7 +88,7 @@ function MyMatchingPage() {
 
   const nowTime = new Date();
   // 남은 시간 계산
-  testData.forEach((item) => {
+  userMatchingList.forEach((item) => {
     const diff = new Date(item.starts_at) - nowTime;
     let remain = "";
     if (diff <= 0) {
@@ -100,17 +108,13 @@ function MyMatchingPage() {
         remain = diffDay + "일 ";
       }
       remain += "남음";
-      // if (diffDay === 0 && diffHour === 0 && diffMin <= 59) {
-      //   item["status"] = "모집중";
-      // } else {
-      //   item["status"] = "";
-      // }
     }
-
+    console.log(diff, remain);
     item["remain"] = remain;
+    item["start_time"] = Moment(item.starts_at).format("MM/DD HH:mm");
   });
 
-  // 맛칭 취소 요청
+  // 매칭 취소 요청
   const onCancel = async (id) => {
     const response = await axios.delete(`/api/matching/${id}/leave/`);
     // console.log("delete response: ", response);
@@ -129,9 +133,10 @@ function MyMatchingPage() {
         <List
           grid={{
             gutter: 16,
-            column: 3,
+            column: userMatchingList.length >= 3 ? 3 : userMatchingList.length,
           }}
           dataSource={userMatchingList}
+          // dataSource={testData}
           className={styles.list}
           renderItem={(item) => (
             <List.Item>
@@ -143,7 +148,7 @@ function MyMatchingPage() {
                 <div className={styles.content_container}>
                   <div>
                     <p className={styles.date_text_waiting}>
-                      {item.starts_at} &nbsp;&nbsp;
+                      {item.start_time} &nbsp;&nbsp;
                     </p>
                     <span>약속 장소: {item.place}</span>&nbsp;&nbsp;&nbsp;&nbsp;
                     <span className={styles.diff_text}>{item.remain}</span>
