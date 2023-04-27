@@ -3,6 +3,7 @@ import styles from "./MyMatchingPage.module.css";
 import { Button, Card, List, Select, Input, message } from "antd";
 import axios from "axios";
 import { getMyMatchings } from "../../api/matchings";
+import { getCookie } from "../../api/util";
 
 function MyMatchingPage() {
   const { Option } = Select;
@@ -112,14 +113,37 @@ function MyMatchingPage() {
 
   // 맛칭 취소 요청
   const onCancel = async (id) => {
-    const response = await axios.delete(`/api/matching/${id}/leave/`);
-    // console.log("delete response: ", response);
-    if (response.data.success) {
-      message.success("취소 완료");
-      fetchUserMatchingList(); // 취소 후 내 매칭 리스트 리로드
-    } else {
-      message.error(response.data.errorMessage);
-    }
+    axios
+      .post(
+        `/api/matchings/${id}/leave`,
+        {},
+        {
+          headers: {
+            "x-csrftoken": getCookie("csrftoken"),
+          },
+        }
+      )
+      .then((resp) => {
+        fetchUserMatchingList();
+      })
+      .catch((err) => {
+        const status = err.response.status;
+
+        if (status === 400) {
+          message.error(err.response.body.message);
+        } else {
+          message.error("알 수 없는 에러입니다.");
+        }
+      });
+
+    // const response = await axios.delete(`/api/matching/${id}/leave/`);
+    // // console.log("delete response: ", response);
+    // if (response.data.success) {
+    //   message.success("취소 완료");
+    //   fetchUserMatchingList(); // 취소 후 내 매칭 리스트 리로드
+    // } else {
+    //   message.error(response.data.errorMessage);
+    // }
   };
 
   return (
