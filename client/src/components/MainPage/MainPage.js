@@ -63,13 +63,15 @@ function MainPage() {
         } else if (status === 403) {
           message.error("로그인이 필요합니다.");
         } else if (status === 409) {
-          const detailCode = err.response.code;
+          const detailCode = err.response.data.code;
           if (detailCode === 1) {
             message.error("이미 호스트로서 참가되어 있습니다.");
           } else if (detailCode === 2) {
             message.error("이미 소속되어 있는 모임입니다.");
           } else {
-            message.error("알 수 없는 에러입니다.");
+            message.error(
+              "알 수 없는 에러입니다. : " + err.response.data.message
+            );
           }
         }
       });

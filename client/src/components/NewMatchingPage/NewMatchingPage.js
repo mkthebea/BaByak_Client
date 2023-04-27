@@ -11,6 +11,8 @@ import {
 } from "antd";
 import styles from "./NewMatchingPage.module.css";
 import axios from "axios";
+import moment from "moment/moment";
+import { getCookie } from "../../api/util";
 
 function NewMatchingPage() {
   const { TextArea } = Input;
@@ -38,23 +40,35 @@ function NewMatchingPage() {
       let data = values;
 
       // 날짜 데이터 가공
-      data["date"] = data["date"].format("YYYY-MM-DD");
-      data["startTime"] =
-        data["date"] + " " + data["startTime"].format("HH:MM");
-      delete data.date;
+      const start_date = data["start_date"].format("YYYY-MM-DD");
+      const start_time = data["start_time"].format("HH:mm:ss");
+      data["starts_at"] = `${start_date}T${start_time}`;
+
+      const duration = moment(values["duration"], "h시간 mm분");
+      const duration_h = duration.hour();
+      const duration_m = duration.minute();
+
+      let ends_at = moment(data["starts_at"], "YYYY-MM-DDTHH-mm-ss")
+        .add("hours", duration_h)
+        .add("minutes", duration_m);
+      data["ends_at"] = ends_at;
 
       // 새 맛칭 등록 요청
-      const response = await axios.post("/api/matching/new/", data);
-      // console.log("new matching send data: ", data);
-      // console.log("new matching response: ", response);
-      if (response.data.success) {
-        message.success("등록 완료!");
-        setTimeout(() => {
-          window.location.replace("/");
-        }, 1000);
-      } else {
-        message.error(response.data.errorMessage);
-      }
+      const response = axios
+        .post(`/api/matchings/`, data, {
+          headers: {
+            "x-csrftoken": getCookie("csrftoken"),
+          },
+        })
+        .then((resp) => {
+          message.success("등록 완료!");
+          setTimeout(() => {
+            window.location.replace("/");
+          }, 1000);
+        })
+        .catch((err) => {
+          console.log(err.response.body.message);
+        });
     }
   };
 
@@ -74,7 +88,7 @@ function NewMatchingPage() {
         >
           <Form.Item
             label="만남 모드"
-            name={"mode"}
+            name={"category"}
             rules={[{ required: true, message: "만남 모드를 선택하세요" }]}
           >
             <Select>
@@ -95,14 +109,14 @@ function NewMatchingPage() {
           >
             <Input.Group compact>
               <Form.Item
-                name={"date"}
+                name={"start_date"}
                 rules={[{ required: true, message: "날짜를 선택하세요" }]}
                 style={{ marginRight: "10px" }}
               >
                 <DatePicker />
               </Form.Item>
               <Form.Item
-                name={"startTime"}
+                name={"start_time"}
                 rules={[{ required: true, message: "시작 시간을 선택하세요" }]}
               >
                 <TimePicker />
@@ -135,12 +149,8 @@ function NewMatchingPage() {
               </span>
             </Input.Group>
           </Form.Item>
-          <Form.Item
-            label="최대 인원"
-            name={"max"}
-            rules={[{ required: true, message: "최대 인원을 입력하세요" }]}
-          >
-            <InputNumber min={2} max={10} defaultValue={3} />
+          <Form.Item label="최대 인원" name={"people_limit"}>
+            <InputNumber min={2} max={10} />
           </Form.Item>
           <Form.Item
             label="매칭 소개"
