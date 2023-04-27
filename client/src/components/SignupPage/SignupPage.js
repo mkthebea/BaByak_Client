@@ -73,7 +73,7 @@ function SignupPage() {
                   },
                 ]}
               >
-                <Input/>
+                <Input />
               </Form.Item>
 
               <Form.Item
@@ -122,7 +122,7 @@ function SignupPage() {
                 }}
               >
                 <Button type="primary" htmlType="submit">
-                  회원가입
+                  Sign Up
                 </Button>
               </Form.Item>
             </Form>
