@@ -4,7 +4,7 @@
 대기 중인 매칭을 신청하거나.  
 직접 밥약🍚 매칭을 만들어 보아요!  
 지금 같이 먹으러 가볼까요?!  
-[바로가기](http://54.95.223.66:3000/)  
+[바로가기](http://43.206.67.181:3000/)  
 
 ## Repository: FE
 This repository contains the codebase for the React client-server. To replicate the server on your own, simply follow these steps:  
