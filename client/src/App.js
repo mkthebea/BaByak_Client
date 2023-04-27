@@ -24,6 +24,8 @@ import NotFound from "./components/NotFound/NotFound";
 import axios from "axios";
 import styles from "./App.module.css";
 import Logo from "./swm.png";
+import { doLogout, loginCheck } from "./api/users";
+import { removeCookie } from "./api/util";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -33,11 +35,15 @@ const App = () => {
   // 로그인 상태 확인
   const [login, setLogin] = useState(false);
   const fetchLogin = async () => {
-    const response = await axios.get("/api/account/login_check/");
-    // console.log("login check response: ", response);
-    if (response.data.success) {
-      setLogin(true);
-    }
+    loginCheck()
+      .then((loginResult) => {
+        setLogin(true);
+      })
+      .catch((error) => {
+        if (error.code === "ERR_BAD_REQUEST") {
+          setLogin(false);
+        }
+      });
   };
   useEffect(() => {
     fetchLogin();
@@ -45,15 +51,24 @@ const App = () => {
 
   // 로그아웃
   const logout = async () => {
-    const response = await axios.post("/api/account/logout/");
-    if (response.data.success) {
-      message.success("로그아웃 완료");
-      setTimeout(() => {
-        window.location.replace("/");
-      }, 1000);
-    } else {
-      message.error(response.data.errorMessage);
-    }
+    doLogout()
+      .then((logoutResult) => {
+        message.success("로그아웃 완료");
+        setLogin(false);
+        // setTimeout(() => {
+        //   window.location.replace("/");
+        // }, 1000);
+        removeCookie("csrftoken");
+        removeCookie("sessionid");
+      })
+      .catch((error) => {
+        message.success("로그아웃 실패");
+        setLogin(false);
+        console.log(error);
+        // setTimeout(() => {
+        //   window.location.replace("/");
+        // }, 1000);
+      });
   };
 
   return (

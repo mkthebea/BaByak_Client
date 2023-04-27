@@ -3,6 +3,7 @@ import styles from "./MyMatchingPage.module.css";
 import { Button, Card, List, Modal, Select, Input, Form, message } from "antd";
 import DetailPage from "../DetailPage/DetailPage";
 import axios from "axios";
+import { getMyMatchings } from "../../api/matchings";
 
 function MyMatchingPage() {
   const { Option } = Select;
@@ -14,49 +15,49 @@ function MyMatchingPage() {
     {
       host: "김민경",
       status: "모집중",
-      join_deadline: "2023-04-28 06:00:00",
+      starts_at: "2023-04-28 06:00:00",
       place: "1층",
       joined: ["김민경", "김혜연"],
     },
     {
       host: "김민경",
       status: "모집중",
-      join_deadline: "2023-04-28 12:00:00",
+      starts_at: "2023-04-28 12:00:00",
       place: "7층 엘베 앞",
       joined: ["김민경", "김혜연"],
     },
     {
       host: "김민경",
       status: "모집중",
-      join_deadline: "2023-04-28 18:00:00",
+      starts_at: "2023-04-28 18:00:00",
       place: "선릉역 5번 출구",
       joined: ["김민경", "김혜연"],
     },
     {
       host: "김민경",
       status: "모집중",
-      join_deadline: "2023-04-28 18:00:00",
+      starts_at: "2023-04-28 18:00:00",
       place: "선릉역 5번 출구",
       joined: ["김민경", "김혜연"],
     },
     {
       host: "김민경",
       status: "모집중",
-      join_deadline: "2023-04-28 18:00:00",
+      starts_at: "2023-04-28 18:00:00",
       place: "선릉역 5번 출구",
       joined: ["김민경", "김혜연"],
     },
     {
       host: "김민경",
       status: "모집중",
-      join_deadline: "2023-04-30 18:00:00",
+      starts_at: "2023-04-30 18:00:00",
       place: "선릉역 5번 출구",
       joined: ["김민경", "김혜연"],
     },
     {
       host: "김민경",
       status: "모집 완료",
-      join_deadline: "2023-04-28 18:00:00",
+      starts_at: "2023-04-28 18:00:00",
       place: "선릉역 5번 출구",
       joined: ["김민경", "김혜연"],
     },
@@ -64,9 +65,13 @@ function MyMatchingPage() {
 
   // 내 맛칭 리스트 가져오기
   const fetchUserMatchingList = async () => {
-    const response = await axios.get("/me/");
+    // const response = await axios.get("/me/");
+    const response = getMyMatchings()
+      .then((resp) => {
+        setUserMatchingList(resp.data);
+      })
+      .catch((error) => {});
 
-    setUserMatchingList(response.data.userMatching);
     // console.log("my matching response: ", response);
   };
   useEffect(() => {
@@ -76,7 +81,7 @@ function MyMatchingPage() {
   const nowTime = new Date();
   // 남은 시간 계산
   testData.forEach((item) => {
-    const diff = new Date(item.join_deadline) - nowTime;
+    const diff = new Date(item.starts_at) - nowTime;
     let remain = "";
     if (diff <= 0) {
       remain += "매칭 마감";
@@ -126,7 +131,7 @@ function MyMatchingPage() {
             gutter: 16,
             column: 3,
           }}
-          dataSource={testData}
+          dataSource={userMatchingList}
           className={styles.list}
           renderItem={(item) => (
             <List.Item>
@@ -138,13 +143,13 @@ function MyMatchingPage() {
                 <div className={styles.content_container}>
                   <div>
                     <p className={styles.date_text_waiting}>
-                      {item.join_deadline} &nbsp;&nbsp;
+                      {item.starts_at} &nbsp;&nbsp;
                     </p>
                     <span>약속 장소: {item.place}</span>&nbsp;&nbsp;&nbsp;&nbsp;
                     <span className={styles.diff_text}>{item.remain}</span>
                     <p className={styles.people}>
                       주최자: {item.host} &nbsp;&nbsp; 참여자:
-                      {item.joined.join(" ")}
+                      {item.joined_members.join(" ")}
                     </p>
                   </div>
                   {item.status === "모집중" ? (
