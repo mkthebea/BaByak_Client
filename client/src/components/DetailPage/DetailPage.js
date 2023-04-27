@@ -1,6 +1,6 @@
 import { Descriptions } from "antd";
 import "moment/locale/ko";
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./DetailPage.module.css";
 
 function DetailPage(props) {
@@ -23,12 +23,9 @@ function DetailPage(props) {
   const joined_members = data.joined_members;
 
   // 매칭 id 초기화
-
-  // useEffect(() => {
-  //   if (waiting !== 0) {
-  //     props.setId(matchings[0].id);
-  //   }
-  // }, [matchings[0].id]);
+  useEffect(() => {
+    props.setId(props.data.id);
+  });
 
   return (
     <div className={styles.container}>

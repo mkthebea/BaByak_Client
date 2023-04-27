@@ -31,3 +31,17 @@ export async function doLogin({ username, password }) {
     password,
   });
 }
+
+export async function doSignup({ username, name, password }) {
+  const path = "api/users/signup/";
+
+  return axios.post(path, {
+    username,
+    password,
+    name,
+  }, {
+    headers: {
+      "x-csrftoken": getCookie("csrftoken"),  
+    }
+  });
+}
