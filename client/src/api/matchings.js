@@ -13,12 +13,8 @@ export async function getSingleMatching(id) {
 }
 
 export async function getMyMatchings() {
-<<<<<<< Updated upstream
-  const path = "/api/matchings?status=모집 완료,모집중,마감 임박";
-=======
   const path =
     "/api/matchings/me?status=모집 완료,모집중,마감 임박&order-by=starts_at&order-direction=desc";
->>>>>>> Stashed changes
 
   return axios.get(path);
 }
