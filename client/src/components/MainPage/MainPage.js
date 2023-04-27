@@ -172,10 +172,7 @@ function MainPage() {
       />
     ),
     onFilter: (value, record) =>
-      record[dataIndex]
-        .toString()
-        .toLowerCase()
-        .includes(value.toLowerCase()),
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
     onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInput.current?.select(), 100);
@@ -352,8 +349,8 @@ function MainPage() {
             pagination={false}
             columns={columns}
             bordered={true}
-            dataSource={matchingList}
-            // dataSource={testData}
+            // dataSource={matchingList}
+            dataSource={testData}
             footer={() => (
               <Link to="/newmatching" className={styles.new_matching}>
                 <PlusCircleOutlined />

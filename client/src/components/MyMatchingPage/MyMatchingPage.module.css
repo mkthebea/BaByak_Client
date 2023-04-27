@@ -21,6 +21,7 @@
   border-radius: 10px;
   height: 80vh;
   width: 100%;
+  padding: 20px;
 }
 
 .list {
@@ -47,23 +48,23 @@
 }
 .date_text_waiting {
   font-size: 18px;
-  font-weight: bold;
+  /* font-weight: bold; */
   color: gray;
 }
 
 .diff_text {
   font-size: 12px;
-  color: gray;
+  color: rgb(242, 91, 91);
 }
-.diff_text_waiting {
+/* .diff_text_waiting {
   font-size: 12px;
   color: gray;
-}
+} */
 
 .content_button {
-  width: 60%;
+  width: 40%;
   align-self: center;
-  margin: 5px;
+  margin: 15px;
 }
 
 .modal {
@@ -74,4 +75,8 @@
   background-color: rgb(217, 217, 217, 0.3);
   /* opacity: 0.3; */
   /* color: white; */
+}
+
+.people {
+  color: #3d56b2;
 }

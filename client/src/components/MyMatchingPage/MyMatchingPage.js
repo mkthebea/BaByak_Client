@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./MyMatchingPage.module.css";
 import { Button, Card, List, Modal, Select, Input, Form, message } from "antd";
-
+import DetailPage from "../DetailPage/DetailPage";
 import axios from "axios";
 
 function MyMatchingPage() {
@@ -11,28 +11,56 @@ function MyMatchingPage() {
   const [userMatchingList, setUserMatchingList] = useState([]);
 
   const testData = [
-    {'join_deadline' : '2023-04-28 06:00:00',
-    'place' : '1층'
+    {
+      host: "김민경",
+      status: "모집중",
+      join_deadline: "2023-04-28 06:00:00",
+      place: "1층",
+      joined: ["김민경", "김혜연"],
     },
-    {'join_deadline' : '2023-04-28 12:00:00',
-    'place' : '7층 엘베 앞'
+    {
+      host: "김민경",
+      status: "모집중",
+      join_deadline: "2023-04-28 12:00:00",
+      place: "7층 엘베 앞",
+      joined: ["김민경", "김혜연"],
     },
-    {'join_deadline' : '2023-04-28 18:00:00',
-    'place' : '선릉역 5번 출구'
+    {
+      host: "김민경",
+      status: "모집중",
+      join_deadline: "2023-04-28 18:00:00",
+      place: "선릉역 5번 출구",
+      joined: ["김민경", "김혜연"],
     },
-    {'join_deadline' : '2023-04-28 18:00:00',
-    'place' : '선릉역 5번 출구'
+    {
+      host: "김민경",
+      status: "모집중",
+      join_deadline: "2023-04-28 18:00:00",
+      place: "선릉역 5번 출구",
+      joined: ["김민경", "김혜연"],
     },
-    {'join_deadline' : '2023-04-28 18:00:00',
-    'place' : '선릉역 5번 출구'
+    {
+      host: "김민경",
+      status: "모집중",
+      join_deadline: "2023-04-28 18:00:00",
+      place: "선릉역 5번 출구",
+      joined: ["김민경", "김혜연"],
     },
-    {'join_deadline' : '2023-04-30 18:00:00',
-    'place' : '선릉역 5번 출구'
+    {
+      host: "김민경",
+      status: "모집중",
+      join_deadline: "2023-04-30 18:00:00",
+      place: "선릉역 5번 출구",
+      joined: ["김민경", "김혜연"],
     },
-    {'join_deadline' : '2023-04-28 18:00:00',
-    'place' : '선릉역 5번 출구'
+    {
+      host: "김민경",
+      status: "모집 완료",
+      join_deadline: "2023-04-28 18:00:00",
+      place: "선릉역 5번 출구",
+      joined: ["김민경", "김혜연"],
     },
-  ]
+  ];
 
   // 내 맛칭 리스트 가져오기
   const fetchUserMatchingList = async () => {
@@ -52,7 +80,7 @@ function MyMatchingPage() {
     let remain = "";
     if (diff <= 0) {
       remain += "매칭 마감";
-      item["status"] = "done";
+      // item["status"] = "모집 완료";
     } else {
       const diffDay = Math.floor(diff / (1000 * 60 * 60 * 24));
       const diffHour = Math.floor((diff / (1000 * 60 * 60)) % 24);
@@ -67,11 +95,11 @@ function MyMatchingPage() {
         remain = diffDay + "일 ";
       }
       remain += "남음";
-      if (diffDay == 0 && diffHour == 0 && diffMin <= 59) {
-        item["status"] = "coming";
-      } else {
-        item["status"] = "";
-      }
+      // if (diffDay === 0 && diffHour === 0 && diffMin <= 59) {
+      //   item["status"] = "모집중";
+      // } else {
+      //   item["status"] = "";
+      // }
     }
 
     item["remain"] = remain;
@@ -99,41 +127,27 @@ function MyMatchingPage() {
             column: 3,
           }}
           dataSource={testData}
-          // dataSource={testData}
           className={styles.list}
           renderItem={(item) => (
             <List.Item>
               <Card
-                title={item.host}
                 hoverable="true"
                 headStyle={{ fontSize: "18px" }}
-                className={
-                  !item.status ? styles.waiting : null
-                }
+                className={styles.waiting}
               >
                 <div className={styles.content_container}>
                   <div>
-                    <span
-                      className={
-                        !item.status
-                          ? styles.date_text_waiting
-                          : styles.date_text
-                      }
-                    >
+                    <p className={styles.date_text_waiting}>
                       {item.join_deadline} &nbsp;&nbsp;
-                    </span>
-                    <p>{item.place}</p>
-                    <span
-                      className={
-                        !item.status
-                          ? styles.diff_text_waiting
-                          : styles.diff_text
-                      }
-                    >
-                      {item.remain}
-                    </span>
+                    </p>
+                    <span>약속 장소: {item.place}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span className={styles.diff_text}>{item.remain}</span>
+                    <p className={styles.people}>
+                      주최자: {item.host} &nbsp;&nbsp; 참여자:
+                      {item.joined.join(" ")}
+                    </p>
                   </div>
-                  {item.status === "" || item.status === "매칭 대기중" ? (
+                  {item.status === "모집중" ? (
                     <Button
                       onClick={() => {
                         onCancel(item.id);
@@ -143,13 +157,7 @@ function MyMatchingPage() {
                       매칭 취소
                     </Button>
                   ) : (
-                    <Button
-                      disabled
-                      onClick={() => {
-                        onCancel(item.id);
-                      }}
-                      className={styles.content_button}
-                    >
+                    <Button disabled className={styles.content_button}>
                       매칭 취소
                     </Button>
                   )}
