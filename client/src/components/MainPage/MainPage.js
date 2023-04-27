@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import styles from "./MainPage.module.css";
 
 import { getMatchings } from "../../api/matchings";
-import { stringfy_date } from "../../api/util";
+import { getCookie, stringfy_date } from "../../api/util";
 import DetailPage from "../DetailPage/DetailPage";
 
 function MainPage() {
@@ -35,20 +35,44 @@ function MainPage() {
   };
 
   const handleOk = async () => {
-    console.log("매칭 신청: ", { id: Id });
+    console.log("매칭 신청: ", Id);
     // console.log(matchingList);
 
     // 매칭 신청 요청 보내기
-    // const res = joinMatching();
-    const response = await axios.post(`/api/matching/${Id}/join/`);
-    if (response.data.success) {
-      message.success("신청 완료!");
-      setTimeout(() => {
-        setIsModalVisible(false);
-      }, 1000);
-    } else {
-      message.error(response.data.errorMessage);
-    }
+    axios
+      .post(
+        `/api/matchings/${Id}/join`,
+        {},
+        {
+          headers: {
+            "x-csrftoken": getCookie("csrftoken"),
+          },
+        }
+      )
+      .then((resp) => {
+        message.success("신청 완료!");
+        setTimeout(() => {
+          setIsModalVisible(false);
+        }, 1000);
+      })
+      .catch((err) => {
+        const status = err.response.status;
+
+        if (status === 400) {
+          message.error("마감된 모임입니다.");
+        } else if (status === 403) {
+          message.error("로그인이 필요합니다.");
+        } else if (status === 409) {
+          const detailCode = err.response.code;
+          if (detailCode === 1) {
+            message.error("이미 호스트로서 참가되어 있습니다.");
+          } else if (detailCode === 2) {
+            message.error("이미 소속되어 있는 모임입니다.");
+          } else {
+            message.error("알 수 없는 에러입니다.");
+          }
+        }
+      });
   };
 
   const handleCancel = () => {
